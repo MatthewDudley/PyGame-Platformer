@@ -21,11 +21,17 @@ class Game:
     def load_data(self):
         # load high score
         self.dir = path.dirname(__file__)
+        img_dir = path.join(self.dir, 'img')
         with open(path.join(self.dir, HS_FILE), 'w') as f:
             try:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
+        # load spritesheets
+                self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
+                self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
+                self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
+                self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
 
 
     def new(self):
@@ -63,7 +69,7 @@ class Game:
                 self.player.vel.y = 0
 
         # Camera movement forward
-        if self.player.rect.right >= ((2 / 3) * WIDTH):
+        if self.player.rect.right > ((2 / 3) * WIDTH):
             self.player.pos.x -= abs(self.player.vel.x)
             for plat in self.platforms:
                 plat.rect.right -= abs(self.player.vel.x)
@@ -85,16 +91,6 @@ class Game:
                     sprite.kill()
         if len(self.platforms) == 0:
             self.playing = False
-
-        # spawn new platforms
-        while len(self.platforms) < 6:
-
-            p = Platform(PLAT_X_RANGE,
-                         PLAT_Y_RANGE,
-                         PLAT_W_RANGE,
-                         PLAT_H_RANGE)
-            self.platforms.add(p)
-            self.all_sprites.add(p)
 
 
     def events(self):
