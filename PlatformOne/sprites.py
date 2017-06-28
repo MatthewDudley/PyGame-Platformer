@@ -20,11 +20,11 @@ class Player(pg.sprite.Sprite):
     def __init__(self, game):
         self.game = game
         pg.sprite.Sprite.__init__(self)
-        self.image = self.game.sprite_alien.get_image(676,368,66,92)
+        self.image = self.game.sprite_alienBlue.get_image(70,0,66,92)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec((WIDTH/2), (HEIGHT/2))
+        self.pos = vec((WIDTH/4), (HEIGHT/4))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
 
