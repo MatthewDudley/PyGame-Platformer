@@ -9,7 +9,7 @@ FONT_NAME = "arial"
 HS_FILE = "highscore.txt"
 
 # spritesheets
-SPRITESHEET_ALIENS = "aliensBlue.png"
+SPRITESHEET_ALIENS = "alienBlue.png"
 SPRITESHEET_ENEMIES = "enemies.png"
 SPRITESHEET_ITEMS = "items_spritesheet.png"
 SPRITESHEET_TILES = "tiles_spritesheet.png"
@@ -30,7 +30,7 @@ PLAYER_GRAV = 1
 PLAYER_JUMP = -15
 
 # start platform(s) (x, y, w, h)
-PLATFORM_LIST = [(0,HEIGHT*(3/4), WIDTH-300, HEIGHT+1 - HEIGHT/3)]
+PLATFORM_LIST = [(0,HEIGHT*(3/4))]
 
 
 # define colors
