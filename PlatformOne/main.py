@@ -1,3 +1,7 @@
+# Credits
+# Art from Kenny.nl
+# Music - Grasslands Theme - https://opengameart.org/content/platformer-game-music-pack
+
 import pygame as pg
 import random
 from settings import *
@@ -21,7 +25,6 @@ class Game:
     def load_data(self):
         # load high score
         self.dir = path.dirname(__file__)
-        img_dir = path.join(self.dir, 'img')
         with open(path.join(self.dir, HS_FILE), 'w') as f:
             try:
                 self.highscore = int(f.read())
@@ -29,10 +32,18 @@ class Game:
                 self.highscore = 0
 
                 # load spritesheets
+                img_dir = path.join(self.dir, 'img')
                 self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
                 self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
                 self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
                 self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
+
+                # load level
+                self.level_dir = path.join(self.dir, 'LevelOne.txt')
+
+                # load sound
+                self.snd_dir = path.join(self.dir, 'snd')
+                self.jump_snd = pg.mixer.Sound(path.join(self.snd_dir,'Jump.wav'))
 
 
     def new(self):
@@ -42,23 +53,37 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
-        self.x = 0
-        self.y = 0
-        for plat in LEVEL_ONE:
-           p = Platform(self, self.x,self.y)
-           self.all_sprites.add(p)
-           self.platforms.add(p)
 
+        # populate level
+        self.x = 0
+        self.y = HEIGHT-70
+        self.type = 18   # grassPlat
+        for i in range(0,4):
+            p = Platform(self, self.x, self.y, self.type)
+            self.all_sprites.add(p)
+            self.platforms.add(p)
+            self.x += 70
+
+        self.y = HEIGHT - (70*3)
+        for i in range(0,2):
+            p = Platform(self, self.x, self.y, self.type)
+            self.all_sprites.add(p)
+            self.platforms.add(p)
+            self.x += 70
+
+        pg.mixer.music.load(path.join(self.snd_dir,'Grasslands-Theme.ogg'))
         self.run()
 
     def run(self):
         # Game Loop
+        pg.mixer.music.play(loops=-1)
         self.playing = True
         while self.playing:
             self.clock.tick(FPS)
             self.events()
             self.update()
             self.draw()
+        pg.mixer.music.fadeout(500)
 
 
     def update(self):
@@ -68,8 +93,15 @@ class Game:
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
-                self.player.pos.y = hits[0].rect.top + 1
-                self.player.vel.y = 0
+                lowest = hits[0]
+                for hit in hits:
+                    if hit.rect.bottom > lowest.rect.bottom:
+                        lowest = hit
+                if self.player.pos.x < lowest.rect.right + 20 and self.player.pos.x > lowest.rect.left - 20:
+                    if self.player.pos.y < lowest.rect.centery:
+                        self.player.pos.y = lowest.rect.top
+                        self.player.vel.y = 0
+                        self.player.jumping = False
 
         # Camera movement forward
         if self.player.rect.right > ((2 / 3) * WIDTH):
@@ -107,6 +139,9 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_SPACE:
+                    self.player.jump_cut()
 
 
     def draw(self):
@@ -120,6 +155,8 @@ class Game:
 
     def show_start_screen(self):
         # game splash/start screen
+        pg.mixer.music.load(path.join(self.snd_dir, 'Grasslands-Theme.ogg'))
+        pg.mixer.music.play(loops=-1)
         self.screen.fill(BGCOLOR)
         self.draw_text(TITLE, 48, BLACK, WIDTH / 2, HEIGHT / 4)
         self.draw_text(MOVE_TEXT, 24, BLACK, WIDTH / 2, HEIGHT / 2)
@@ -127,6 +164,7 @@ class Game:
         self.draw_text(HS_TEXT + str(self.highscore), 24, BLACK, WIDTH / 2, 15)
         pg.display.flip()
         self.wait_for_key()
+        pg.mixer.music.fadeout(500)
 
 
     def show_go_screen(self):

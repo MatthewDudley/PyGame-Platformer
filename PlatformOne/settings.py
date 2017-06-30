@@ -24,13 +24,13 @@ GO_TEXT = "GAME OVER "
 SCORE_TEXT = "Score: "
 
 # player props
-PLAYER_ACC = 0.7
-PLAYER_FRICTION = -0.11
+PLAYER_ACC = 0.8
+PLAYER_FRICTION = -0.10
 PLAYER_GRAV = 1
-PLAYER_JUMP = -15
+PLAYER_JUMP = 18
 
 # start platform(s) (x, y)
-LEVEL_ONE = "LevelOne.txt"
+#LEVEL_ONE = "LevelOne.txt"
 
 
 # define colors

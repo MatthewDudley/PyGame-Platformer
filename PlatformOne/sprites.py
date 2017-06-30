@@ -52,11 +52,18 @@ class Player(pg.sprite.Sprite):
 
     def jump(self):
         # jump only if platform is below
-        self.rect.x += 1
+        self.rect.x += 2
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
-        self.rect.x -= 1
-        if hits:
-            self.vel.y = PLAYER_JUMP
+        self.rect.x -= 2
+        if hits and not self.jumping:
+            self.game.jump_snd.play()
+            self.jumping = True
+            self.vel.y = -PLAYER_JUMP
+
+    def jump_cut(self):
+        if self.jumping:
+            if self.vel.y < -3:
+                self.vel.y = -3
 
     def update(self):
         self.animate()
@@ -72,9 +79,9 @@ class Player(pg.sprite.Sprite):
 
         # motion
         self.vel += self.acc
-        self.pos += self.vel + 0.5 * self.acc
         if abs(self.vel.x) < 0.5:
             self.vel.x = 0
+        self.pos += self.vel + 0.5 * self.acc
 
         self.rect.midbottom = self.pos
 
@@ -87,7 +94,7 @@ class Player(pg.sprite.Sprite):
 
         # walking
         if self.walking:
-            if now - self.last_update > 200:
+            if now - self.last_update > 230:
                 self.last_update = now
                 self.current_frame = (self.current_frame + 1) % len(self.walk_frames_r)
                 bottom = self.rect.bottom
@@ -99,7 +106,7 @@ class Player(pg.sprite.Sprite):
                 self.rect.bottom = bottom
         # idle
         if not self.jumping and not self.walking:
-            if now - self.last_update > 390:
+            if now - self.last_update > 400:
                 self.last_update = now
                 self.current_frame = (self.current_frame + 1) % len(self.standing_frames)
                 bottom = self.rect.bottom
@@ -108,7 +115,7 @@ class Player(pg.sprite.Sprite):
                 self.rect.bottom = bottom
 
 class Platform(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, type):
         pg.sprite.Sprite.__init__(self)
         self.game = game
 
@@ -133,13 +140,8 @@ class Platform(pg.sprite.Sprite):
                   self.game.sprite_tiles.get_image(504, 576, 70, 70),   #18  "grassMid.png"
                   self.game.sprite_tiles.get_image(504, 504, 70, 70)]   #19  "grassRight.png"
 
-        self.x = 0
-        self.y = 0
-        with open(LEVEL_ONE) as l:
-            for self.block in l.read():
-                print(self.block)
-                # self.block = images[0]
-                # self.block.set_colorkey(BLACK)
-                # self.rect = self.clock.get_rect()
-                # self.rect.x = x
-                # self.rect.y = y
+        self.image = images[type]
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
