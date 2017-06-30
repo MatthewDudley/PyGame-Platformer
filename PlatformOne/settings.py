@@ -2,8 +2,8 @@
 import random
 
 TITLE = "GAME TITLE"
-WIDTH = 600
-HEIGHT = 500
+WIDTH = 840     #12 blocks wide
+HEIGHT = 630    #9 blocks tall
 FPS = 60
 FONT_NAME = "arial"
 HS_FILE = "highscore.txt"
@@ -29,8 +29,8 @@ PLAYER_FRICTION = -0.11
 PLAYER_GRAV = 1
 PLAYER_JUMP = -15
 
-# start platform(s) (x, y, w, h)
-PLATFORM_LIST = [(0,HEIGHT*(3/4))]
+# start platform(s) (x, y)
+LEVEL_ONE = "LevelOne.txt"
 
 
 # define colors
@@ -41,4 +41,4 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 LIGHTBLUE = (65, 190, 244)
-BGCOLOR = (247, 177, 177)
+BGCOLOR = (237, 237, 237)

@@ -13,7 +13,7 @@ class Spritesheet:
         # grab an image out of larger spritesheet
         image = pg.Surface((width,height))
         image.blit(self.spritesheet, (0,0), (x,y,width,height))
-        image = pg.transform.scale(image, ((width // 4)*3, (height // 4)*3))
+        #image = pg.transform.scale(image, ((width // 4)*3, (height // 4)*3))
         return image
 
 class Player(pg.sprite.Sprite):
@@ -27,8 +27,8 @@ class Player(pg.sprite.Sprite):
         self.load_images()
         self.image = self.standing_frames[0]
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec((WIDTH/4), HEIGHT*(3/4))
+        self.rect.center = (40, HEIGHT*(3/4))
+        self.pos = vec(40, HEIGHT*(3/4))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
 
@@ -112,29 +112,34 @@ class Platform(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.game = game
 
-        images = [self.game.sprite_alien.get_image(648,  0,  70, 70),   #"grass.png"
-                  self.game.sprite_alien.get_image(576, 864, 70, 70),   #"grassCenter.png"
-                  self.game.sprite_alien.get_image(576, 792, 70, 70),   #"grassCenter_rounded.png"
-                  self.game.sprite_alien.get_image(576, 720, 70, 70),   #"grassCliffLeft.png"
-                  self.game.sprite_alien.get_image(576, 648, 70, 70),   #"grassCliffLeftAlt.png"
-                  self.game.sprite_alien.get_image(576, 576, 70, 70),   #"grassCliffRight.png"
-                  self.game.sprite_alien.get_image(576, 504, 70, 70),   #"grassCliffRightAlt.png"
-                  self.game.sprite_alien.get_image(576, 432, 70, 70),   #"grassHalf.png"
-                  self.game.sprite_alien.get_image(576, 360, 70, 70),   #"grassHalfLeft.png"
-                  self.game.sprite_alien.get_image(576, 288, 70, 70),   #"grassHalfMid.png"
-                  self.game.sprite_alien.get_image(576, 216, 70, 70),   #"grassHalfRight.png"
-                  self.game.sprite_alien.get_image(576, 144, 70, 70),   #"grassHillLeft.png"
-                  self.game.sprite_alien.get_image(576, 72,  70, 70),   #"grassHillLeft2.png"
-                  self.game.sprite_alien.get_image(576, 0,   70, 70),   #"grassHillRight.png"
-                  self.game.sprite_alien.get_image(504, 864, 70, 70),   #"grassHillRight2.png"
-                  self.game.sprite_alien.get_image(849, 868,  5, 24),   #"grassLedgeLeft.png"
-                  self.game.sprite_alien.get_image(849, 894,  5, 24),   #"grassLedgeRight.png"
-                  self.game.sprite_alien.get_image(504, 648, 70, 70),   #"grassLeft.png"
-                  self.game.sprite_alien.get_image(504, 576, 70, 70),   #"grassMid.png"
-                  self.game.sprite_alien.get_image(504, 504, 70, 70)]    #"grassRight.png"
+        images = [self.game.sprite_tiles.get_image(648,  0,  70, 70),   #0  "grass.png"
+                  self.game.sprite_tiles.get_image(576, 864, 70, 70),   #1  "grassCenter.png"
+                  self.game.sprite_tiles.get_image(576, 792, 70, 70),   #2  "grassCenter_rounded.png"
+                  self.game.sprite_tiles.get_image(576, 720, 70, 70),   #3  "grassCliffLeft.png"
+                  self.game.sprite_tiles.get_image(576, 648, 70, 70),   #4  "grassCliffLeftAlt.png"
+                  self.game.sprite_tiles.get_image(576, 576, 70, 70),   #5  "grassCliffRight.png"
+                  self.game.sprite_tiles.get_image(576, 504, 70, 70),   #6  "grassCliffRightAlt.png"
+                  self.game.sprite_tiles.get_image(576, 432, 70, 70),   #7  "grassHalf.png"
+                  self.game.sprite_tiles.get_image(576, 360, 70, 70),   #8  "grassHalfLeft.png"
+                  self.game.sprite_tiles.get_image(576, 288, 70, 70),   #9  "grassHalfMid.png"
+                  self.game.sprite_tiles.get_image(576, 216, 70, 70),   #10  "grassHalfRight.png"
+                  self.game.sprite_tiles.get_image(576, 144, 70, 70),   #11  "grassHillLeft.png"
+                  self.game.sprite_tiles.get_image(576, 72,  70, 70),   #12  "grassHillLeft2.png"
+                  self.game.sprite_tiles.get_image(576, 0,   70, 70),   #13  "grassHillRight.png"
+                  self.game.sprite_tiles.get_image(504, 864, 70, 70),   #14  "grassHillRight2.png"
+                  self.game.sprite_tiles.get_image(849, 868,  5, 24),   #15  "grassLedgeLeft.png"
+                  self.game.sprite_tiles.get_image(849, 894,  5, 24),   #16  "grassLedgeRight.png"
+                  self.game.sprite_tiles.get_image(504, 648, 70, 70),   #17  "grassLeft.png"
+                  self.game.sprite_tiles.get_image(504, 576, 70, 70),   #18  "grassMid.png"
+                  self.game.sprite_tiles.get_image(504, 504, 70, 70)]   #19  "grassRight.png"
 
-        self.image = images[0]
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.x = 0
+        self.y = 0
+        with open(LEVEL_ONE) as l:
+            for self.block in l.read():
+                print(self.block)
+                # self.block = images[0]
+                # self.block.set_colorkey(BLACK)
+                # self.rect = self.clock.get_rect()
+                # self.rect.x = x
+                # self.rect.y = y

@@ -27,7 +27,8 @@ class Game:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
-        # load spritesheets
+
+                # load spritesheets
                 self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
                 self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
                 self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
@@ -41,8 +42,10 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
         self.all_sprites.add(self.player)
-        for plat in PLATFORM_LIST:
-           p = Platform(self, *plat)
+        self.x = 0
+        self.y = 0
+        for plat in LEVEL_ONE:
+           p = Platform(self, self.x,self.y)
            self.all_sprites.add(p)
            self.platforms.add(p)
 
@@ -79,7 +82,7 @@ class Game:
         # Camera move up
 
         # Camera movement Backwards
-        if self.player.rect.left <= ((1 / 8) * WIDTH):
+        if self.player.rect.left <= (0):
             self.player.pos.x -= self.player.vel.x
 
 
@@ -110,7 +113,7 @@ class Game:
         # Game Loop - draw
         self.screen.fill(BGCOLOR)
         self.all_sprites.draw(self.screen)
-        self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
+        self.draw_text(str(self.score), 22, BLACK, WIDTH / 2, 15)
         # *after* drawing everything, flip the display
         pg.display.flip()
 
@@ -118,10 +121,10 @@ class Game:
     def show_start_screen(self):
         # game splash/start screen
         self.screen.fill(BGCOLOR)
-        self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text(MOVE_TEXT, 24, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text(DIR_TEXT, 24, WHITE, WIDTH / 2, HEIGHT * 3/4)
-        self.draw_text(HS_TEXT + str(self.highscore), 24, WHITE, WIDTH / 2, 15)
+        self.draw_text(TITLE, 48, BLACK, WIDTH / 2, HEIGHT / 4)
+        self.draw_text(MOVE_TEXT, 24, BLACK, WIDTH / 2, HEIGHT / 2)
+        self.draw_text(DIR_TEXT, 24, BLACK, WIDTH / 2, HEIGHT * 3/4)
+        self.draw_text(HS_TEXT + str(self.highscore), 24, BLACK, WIDTH / 2, 15)
         pg.display.flip()
         self.wait_for_key()
 
@@ -131,16 +134,16 @@ class Game:
         if not self.running:
             return
         self.screen.fill(BGCOLOR)
-        self.draw_text(GO_TEXT, 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text(SCORE_TEXT + str(self.score), 24, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text(DIR_TEXT, 24, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+        self.draw_text(GO_TEXT, 48, BLACK, WIDTH / 2, HEIGHT / 4)
+        self.draw_text(SCORE_TEXT + str(self.score), 24, BLACK, WIDTH / 2, HEIGHT / 2)
+        self.draw_text(DIR_TEXT, 24, BLACK, WIDTH / 2, HEIGHT * 3 / 4)
         if self.score > self.highscore:
             self.highscore = self.score
-            self.draw_text("NEW HIGH SCORE!", 24, WHITE, WIDTH/2, HEIGHT/2 + 40 )
+            self.draw_text("NEW HIGH SCORE!", 24, BLACK, WIDTH/2, HEIGHT/2 + 40 )
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.draw_text("Highscore: " + str(self.highscore), 24, WHITE, WIDTH / 2, HEIGHT/2 +40)
+            self.draw_text("Highscore: " + str(self.highscore), 24, BLACK, WIDTH / 2, HEIGHT/2 +40)
 
         pg.display.flip()
         self. wait_for_key()
