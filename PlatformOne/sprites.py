@@ -51,6 +51,7 @@ class Player(pg.sprite.Sprite):
         self.jump_frame.set_colorkey(BLACK)
 
     def jump(self):
+        now = pg.time.get_ticks()
         # jump only if platform is below
         self.rect.x += 2
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -59,6 +60,12 @@ class Player(pg.sprite.Sprite):
             self.game.jump_snd.play()
             self.jumping = True
             self.vel.y = -PLAYER_JUMP
+            self.last_update = now
+            #self.current_frame = (self.current_frame + 1) % len(self.jump_frame)
+            bottom = self.rect.bottom
+            self.image = self.jump_frame
+            self.rect = self.image.get_rect()
+            self.rect.bottom = bottom
 
     def jump_cut(self):
         if self.jumping:
@@ -93,7 +100,7 @@ class Player(pg.sprite.Sprite):
             self.walking = False
 
         # walking
-        if self.walking:
+        if self.walking and not self.jumping:
             if now - self.last_update > 230:
                 self.last_update = now
                 self.current_frame = (self.current_frame + 1) % len(self.walk_frames_r)

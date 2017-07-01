@@ -1,6 +1,6 @@
 # Credits
-# Art from Kenny.nl
-# Music - Grasslands Theme - https://opengameart.org/content/platformer-game-music-pack
+    # Art from Kenny.nl
+    # Music - Grasslands Theme - https://opengameart.org/content/platformer-game-music-pack
 
 import pygame as pg
 import random
@@ -31,19 +31,19 @@ class Game:
             except:
                 self.highscore = 0
 
-                # load spritesheets
-                img_dir = path.join(self.dir, 'img')
-                self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
-                self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
-                self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
-                self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
+        # load spritesheets
+        img_dir = path.join(self.dir, 'img')
+        self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
+        self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
+        self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
+        self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
 
-                # load level
-                self.level_dir = path.join(self.dir, 'LevelOne.txt')
+        # load level
+        self.level_dir = path.join(self.dir, 'LevelOne.txt')
 
-                # load sound
-                self.snd_dir = path.join(self.dir, 'snd')
-                self.jump_snd = pg.mixer.Sound(path.join(self.snd_dir,'Jump.wav'))
+        # load sound
+        self.snd_dir = path.join(self.dir, 'snd')
+        self.jump_snd = pg.mixer.Sound(path.join(self.snd_dir,'Jump.wav'))
 
 
     def new(self):
