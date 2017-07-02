@@ -47,8 +47,12 @@ class Player(pg.sprite.Sprite):
             frame.set_colorkey(BLACK)
             self.walk_frames_l.append(pg.transform.flip(frame, True, False))
 
-        self.jump_frame = self.game.sprite_alien.get_image(67, 192, 66, 93)
-        self.jump_frame.set_colorkey(BLACK)
+        self.jump_frame = [self.game.sprite_alien.get_image(67, 192, 66, 93)]
+
+        self.jump_frame_l = []
+        for frame in self.jump_frame:
+            frame.set_colorkey(BLACK)
+            self.jump_frame_l.append(pg.transform.flip(frame, True, False))
 
     def jump(self):
         now = pg.time.get_ticks()
@@ -61,9 +65,13 @@ class Player(pg.sprite.Sprite):
             self.jumping = True
             self.vel.y = -PLAYER_JUMP
             self.last_update = now
-            #self.current_frame = (self.current_frame + 1) % len(self.jump_frame)
+            self.current_frame = (self.current_frame + 1) % len(self.jump_frame)
             bottom = self.rect.bottom
-            self.image = self.jump_frame
+            print(self.vel.x )
+            if self.vel.x >= 0:
+                self.image = self.jump_frame[0]
+            else:
+                self.image = self.jump_frame_l[0]
             self.rect = self.image.get_rect()
             self.rect.bottom = bottom
 

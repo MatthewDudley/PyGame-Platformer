@@ -1,6 +1,6 @@
 # Credits
-    # Art from Kenny.nl
-    # Music - Grasslands Theme - https://opengameart.org/content/platformer-game-music-pack
+# Art from Kenny.nl
+#  Music - Grasslands Theme - https://opengameart.org/content/platformer-game-music-pack
 
 import pygame as pg
 import random
@@ -121,18 +121,18 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
+
         # collisions
         hits = pg.sprite.spritecollide(self.player, self.platforms, False)
         if hits:
-            #lowest = hits[0]
+            lowest = hits[0]
             for hit in hits:
                 if hit.rect.bottom > lowest.rect.bottom:
                     lowest = hit
-            if self.player.pos.x < lowest.rect.right + 20 and self.player.pos.x > lowest.rect.left - 20:
-                if self.player.pos.y < lowest.rect.centery:
-                    self.player.pos.y = lowest.rect.top
-                    self.player.vel.y = 0
-                    self.player.jumping = False
+            if self.player.pos.y < lowest.rect.centery:
+                self.player.pos.y = lowest.rect.top
+                self.player.vel.y = 0
+                self.player.jumping = False
 
         # Camera movement forward
         if self.player.rect.right > ((2 / 3) * WIDTH):
