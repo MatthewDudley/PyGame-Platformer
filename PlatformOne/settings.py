@@ -30,7 +30,7 @@ PLAYER_GRAV = 1
 PLAYER_JUMP = 18
 
 # start platform(s) (x, y)
-#LEVEL_ONE = "LevelOne.txt"
+LEVEL_ONE = "LevelOne.txt"
 
 
 # define colors

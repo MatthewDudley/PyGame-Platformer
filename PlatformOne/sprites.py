@@ -126,6 +126,26 @@ class Platform(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.game = game
 
+        '''
+	<SubTexture name="dirtCliffLeft.png" x="720" y="720" width="70" height="70"/>
+	<SubTexture name="dirtCliffLeftAlt.png" x="720" y="648" width="70" height="70"/>
+	<SubTexture name="dirtCliffRight.png" x="720" y="576" width="70" height="70"/>
+	<SubTexture name="dirtCliffRightAlt.png" x="720" y="504" width="70" height="70"/>
+	<SubTexture name="dirtHalf.png" x="720" y="432" width="70" height="70"/>
+	<SubTexture name="dirtHalfLeft.png" x="720" y="360" width="70" height="70"/>
+	<SubTexture name="dirtHalfMid.png" x="720" y="288" width="70" height="70"/>
+	<SubTexture name="dirtHalfRight.png" x="720" y="216" width="70" height="70"/>
+	<SubTexture name="dirtHillLeft.png" x="720" y="144" width="70" height="70"/>
+	<SubTexture name="dirtHillLeft2.png" x="720" y="72" width="70" height="70"/>
+	<SubTexture name="dirtHillRight.png" x="720" y="0" width="70" height="70"/>
+	<SubTexture name="dirtHillRight2.png" x="648" y="864" width="70" height="70"/>
+	<SubTexture name="dirtLedgeLeft.png" x="842" y="892" width="5" height="18"/>
+	<SubTexture name="dirtLedgeRight.png" x="842" y="912" width="5" height="18"/>
+	<SubTexture name="dirtLeft.png" x="504" y="432" width="70" height="70"/>
+	<SubTexture name="dirtMid.png" x="504" y="360" width="70" height="70"/>
+	<SubTexture name="dirtRight.png" x="648" y="504" width="70" height="70"/>
+        '''
+
         images = [self.game.sprite_tiles.get_image(648,  0,  70, 70),   #0  "grass.png"
                   self.game.sprite_tiles.get_image(576, 864, 70, 70),   #1  "grassCenter.png"
                   self.game.sprite_tiles.get_image(576, 792, 70, 70),   #2  "grassCenter_rounded.png"
@@ -145,7 +165,11 @@ class Platform(pg.sprite.Sprite):
                   self.game.sprite_tiles.get_image(849, 894,  5, 24),   #16  "grassLedgeRight.png"
                   self.game.sprite_tiles.get_image(504, 648, 70, 70),   #17  "grassLeft.png"
                   self.game.sprite_tiles.get_image(504, 576, 70, 70),   #18  "grassMid.png"
-                  self.game.sprite_tiles.get_image(504, 504, 70, 70)]   #19  "grassRight.png"
+                  self.game.sprite_tiles.get_image(504, 504, 70, 70),   #19  "grassRight.png"
+                  self.game.sprite_tiles.get_image(792, 0,   70, 70),   #20  "dirt.png"
+                  self.game.sprite_tiles.get_image(720, 864, 70, 70),   #21 "dirtCenter.png"
+                  self.game.sprite_tiles.get_image(720, 792, 70, 70),   #22 "dirtCenter_rounded.png"
+                  ]
 
         self.image = images[type]
         self.image.set_colorkey(BLACK)
