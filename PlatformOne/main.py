@@ -33,10 +33,7 @@ class Game:
 
         # load spritesheets
         img_dir = path.join(self.dir, 'img')
-        self.sprite_alien = Spritesheet(path.join(img_dir, SPRITESHEET_ALIENS))
-        self.sprite_enemies = Spritesheet(path.join(img_dir, SPRITESHEET_ENEMIES))
-        self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
-        self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
+        self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
 
         # load sound
         self.snd_dir = path.join(self.dir, 'snd')
@@ -60,14 +57,14 @@ class Game:
         with open(path.join(self.dir, LEVEL_ONE), 'r') as file:
             for block in file.read():
                 if block == '#':
-                    self.type = 18
+                    self.type = 0
                     p = Platform(self, self.x, self.y, self.type)
                     self.all_sprites.add(p)
                     self.platforms.add(p)
-                    self.x += 70
+                    self.x += 64
                     count += 1
                     if count >= count_limit:
-                        self.y += 70
+                        self.y += 64
                         self.x = 0
                         count = 0
 
@@ -76,30 +73,30 @@ class Game:
                     p = Platform(self, self.x, self.y, self.type)
                     self.all_sprites.add(p)
                     self.platforms.add(p)
-                    self.x += 70
+                    self.x += 64
                     count += 1
                     if count >= count_limit:
-                        self.y += 70
+                        self.y += 64
                         self.x = 0
                         count = 0
 
                 elif block == '$':
-                    self.type = 20
+                    self.type = 0
                     p = Platform(self, self.x, self.y, self.type)
                     self.all_sprites.add(p)
                     self.platforms.add(p)
-                    self.x += 70
+                    self.x += 64
                     count += 1
                     if count >= count_limit:
-                        self.y += 70
+                        self.y += 64
                         self.x = 0
                         count = 0
 
                 elif block == '_':
-                    self.x += 70
+                    self.x += 64
                     count += 1
                     if count >= count_limit:
-                        self.y += 70
+                        self.y += 64
                         self.x = 0
                         count = 0
 
