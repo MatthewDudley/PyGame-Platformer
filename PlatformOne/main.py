@@ -38,9 +38,6 @@ class Game:
         self.sprite_items = Spritesheet(path.join(img_dir, SPRITESHEET_ITEMS))
         self.sprite_tiles = Spritesheet(path.join(img_dir, SPRITESHEET_TILES))
 
-        # load level
-        self.level_dir = path.join(self.dir, 'LevelOne.txt')
-
         # load sound
         self.snd_dir = path.join(self.dir, 'snd')
         self.jump_snd = pg.mixer.Sound(path.join(self.snd_dir,'Jump.wav'))
@@ -54,22 +51,57 @@ class Game:
         self.player = Player(self)
         self.all_sprites.add(self.player)
 
-        # populate level
+        # load level
         self.x = 0
-        self.y = HEIGHT-70
-        self.type = 18   # grassPlat
-        for i in range(0,4):
-            p = Platform(self, self.x, self.y, self.type)
-            self.all_sprites.add(p)
-            self.platforms.add(p)
-            self.x += 70
+        self.y = 0
+        self.type = 0
+        count = 0
+        count_limit = 100
+        with open(path.join(self.dir, LEVEL_ONE), 'r') as file:
+            for block in file.read():
+                if block == '#':
+                    self.type = 18
+                    p = Platform(self, self.x, self.y, self.type)
+                    self.all_sprites.add(p)
+                    self.platforms.add(p)
+                    self.x += 70
+                    count += 1
+                    if count >= count_limit:
+                        self.y += 70
+                        self.x = 0
+                        count = 0
 
-        self.y = HEIGHT - (70*3)
-        for i in range(0,2):
-            p = Platform(self, self.x, self.y, self.type)
-            self.all_sprites.add(p)
-            self.platforms.add(p)
-            self.x += 70
+                elif block == '&':
+                    self.type = 1
+                    p = Platform(self, self.x, self.y, self.type)
+                    self.all_sprites.add(p)
+                    self.platforms.add(p)
+                    self.x += 70
+                    count += 1
+                    if count >= count_limit:
+                        self.y += 70
+                        self.x = 0
+                        count = 0
+
+                elif block == '$':
+                    self.type = 20
+                    p = Platform(self, self.x, self.y, self.type)
+                    self.all_sprites.add(p)
+                    self.platforms.add(p)
+                    self.x += 70
+                    count += 1
+                    if count >= count_limit:
+                        self.y += 70
+                        self.x = 0
+                        count = 0
+
+                elif block == '_':
+                    self.x += 70
+                    count += 1
+                    if count >= count_limit:
+                        self.y += 70
+                        self.x = 0
+                        count = 0
 
         pg.mixer.music.load(path.join(self.snd_dir,'Grasslands-Theme.ogg'))
         self.run()
@@ -89,19 +121,18 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
-        # check if player hits a platform - only if falling
-        if self.player.vel.y > 0:
-            hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-            if hits:
-                lowest = hits[0]
-                for hit in hits:
-                    if hit.rect.bottom > lowest.rect.bottom:
-                        lowest = hit
-                if self.player.pos.x < lowest.rect.right + 20 and self.player.pos.x > lowest.rect.left - 20:
-                    if self.player.pos.y < lowest.rect.centery:
-                        self.player.pos.y = lowest.rect.top
-                        self.player.vel.y = 0
-                        self.player.jumping = False
+        # collisions
+        hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+        if hits:
+            #lowest = hits[0]
+            for hit in hits:
+                if hit.rect.bottom > lowest.rect.bottom:
+                    lowest = hit
+            if self.player.pos.x < lowest.rect.right + 20 and self.player.pos.x > lowest.rect.left - 20:
+                if self.player.pos.y < lowest.rect.centery:
+                    self.player.pos.y = lowest.rect.top
+                    self.player.vel.y = 0
+                    self.player.jumping = False
 
         # Camera movement forward
         if self.player.rect.right > ((2 / 3) * WIDTH):
@@ -149,6 +180,7 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.all_sprites.draw(self.screen)
         self.draw_text(str(self.score), 22, BLACK, WIDTH / 2, 15)
+
         # *after* drawing everything, flip the display
         pg.display.flip()
 
