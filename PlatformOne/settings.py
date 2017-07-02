@@ -9,10 +9,7 @@ FONT_NAME = "arial"
 HS_FILE = "highscore.txt"
 
 # spritesheets
-SPRITESHEET_ALIENS = "alienBlue.png"
-SPRITESHEET_ENEMIES = "enemies.png"
-SPRITESHEET_ITEMS = "items_spritesheet.png"
-SPRITESHEET_TILES = "tiles_spritesheet.png"
+SPRITESHEET = "spritesheet_complete.png"
 
 # start screen
 MOVE_TEXT = "Arrows keys to move, Space to jump "
@@ -24,7 +21,7 @@ GO_TEXT = "GAME OVER "
 SCORE_TEXT = "Score: "
 
 # player props
-PLAYER_ACC = 0.8
+PLAYER_ACC = 0.75
 PLAYER_FRICTION = -0.10
 PLAYER_GRAV = 1
 PLAYER_JUMP = 18
