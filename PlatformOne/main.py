@@ -122,14 +122,16 @@ class Game:
         # collisions
         hits = pg.sprite.spritecollide(self.player, self.platforms, False)
         if hits:
-            lowest = hits[0]
             for hit in hits:
-                if hit.rect.bottom > lowest.rect.bottom:
-                    lowest = hit
-            if self.player.pos.y < lowest.rect.centery:
-                self.player.pos.y = lowest.rect.top
-                self.player.vel.y = 0
-                self.player.jumping = False
+                if self.player.pos.y < hit.rect.left:
+                    self.player.vel.y = 0
+
+                if self.player.pos.y < hit.rect.bottom:
+                    self.player.pos.y = hit.rect.top
+                    self.player.vel.y = 0
+                    self.player.jumping = False
+
+
 
         # Camera movement forward
         if self.player.rect.right > ((2 / 3) * WIDTH):
@@ -174,7 +176,7 @@ class Game:
 
     def draw(self):
         # Game Loop - draw
-        self.screen.fill(BGCOLOR)
+        self.screen.fill(WHITE)
         self.all_sprites.draw(self.screen)
         self.draw_text(str(self.score), 22, BLACK, WIDTH / 2, 15)
 
@@ -186,7 +188,7 @@ class Game:
         # game splash/start screen
         pg.mixer.music.load(path.join(self.snd_dir, 'Grasslands-Theme.ogg'))
         pg.mixer.music.play(loops=-1)
-        self.screen.fill(BGCOLOR)
+        self.screen.fill(WHITE)
         self.draw_text(TITLE, 48, BLACK, WIDTH / 2, HEIGHT / 4)
         self.draw_text(MOVE_TEXT, 24, BLACK, WIDTH / 2, HEIGHT / 2)
         self.draw_text(DIR_TEXT, 24, BLACK, WIDTH / 2, HEIGHT * 3/4)
@@ -200,7 +202,7 @@ class Game:
         # game over/continue
         if not self.running:
             return
-        self.screen.fill(BGCOLOR)
+        self.screen.fill(WHITE)
         self.draw_text(GO_TEXT, 48, BLACK, WIDTH / 2, HEIGHT / 4)
         self.draw_text(SCORE_TEXT + str(self.score), 24, BLACK, WIDTH / 2, HEIGHT / 2)
         self.draw_text(DIR_TEXT, 24, BLACK, WIDTH / 2, HEIGHT * 3 / 4)

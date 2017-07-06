@@ -24,7 +24,7 @@ SCORE_TEXT = "Score: "
 PLAYER_ACC = 0.75
 PLAYER_FRICTION = -0.10
 PLAYER_GRAV = 1
-PLAYER_JUMP = 18
+PLAYER_JUMP = 17
 
 # start platform(s) (x, y)
 LEVEL_ONE = "LevelOne.txt"
@@ -38,4 +38,4 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 LIGHTBLUE = (65, 190, 244)
-BGCOLOR = (237, 237, 237)
+BG = "set2_background.png"
